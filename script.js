@@ -10,8 +10,8 @@ function showPage(pageId) {
   });
 
   if (pageId === 'accueil') {
-    // Show accueil and parcours together on the Home page
-    ['accueil', 'parcours'].forEach(id => {
+    // Show accueil, formation-gratuite, and parcours together on the Home page
+    ['accueil', 'formation-gratuite', 'parcours'].forEach(id => {
       const target = document.getElementById(id);
       if (target) {
         target.classList.remove('page-hidden');
@@ -294,4 +294,73 @@ if (carouselTrack) {
     if (nextIndex >= slides.length) nextIndex = 0;
     moveToSlide(nextIndex);
   }, 4000);
+}
+
+// ===== FREE TRAINING FORM HANDLING =====
+const freeForm = document.getElementById('freeTrainingForm');
+if (freeForm) {
+  freeForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const prenomInput = document.getElementById('free-prenom');
+    const nomInput = document.getElementById('free-nom');
+    const emailInput = document.getElementById('free-email');
+    const telInput = document.getElementById('free-tel');
+
+    const emailError = document.getElementById('free-email-error');
+    const telError = document.getElementById('free-tel-error');
+    const successBlock = document.getElementById('free-success');
+    const successName = document.getElementById('free-success-name');
+
+    // Reset errors
+    emailError.style.display = 'none';
+    telError.style.display = 'none';
+    emailInput.classList.remove('invalid');
+    telInput.classList.remove('invalid');
+
+    // Get and sanitize values
+    const prenom = sanitizeHTML(prenomInput.value.trim());
+    const nom = sanitizeHTML(nomInput.value.trim());
+    const email = sanitizeHTML(emailInput.value.trim());
+    const tel = sanitizeHTML(telInput.value.trim());
+
+    let hasError = false;
+
+    // Validate email ends with @gmail.com
+    if (!email.toLowerCase().endsWith('@gmail.com')) {
+      emailError.style.display = 'block';
+      emailInput.classList.add('invalid');
+      hasError = true;
+    }
+
+    // Validate telephone (must be valid digits, spaces, hyphens, plus sign)
+    const telRegex = /^[0-9\s+\-()]{7,20}$/;
+    if (!telRegex.test(tel)) {
+      telError.style.display = 'block';
+      telInput.classList.add('invalid');
+      hasError = true;
+    }
+
+    if (hasError) return;
+
+    // Save registration info in localStorage (safely)
+    try {
+      const registrations = JSON.parse(localStorage.getItem('free_training_registrations') || '[]');
+      registrations.push({
+        prenom,
+        nom,
+        email,
+        tel,
+        date: new Date().toISOString()
+      });
+      localStorage.setItem('free_training_registrations', JSON.stringify(registrations));
+    } catch (err) {
+      console.error("Error saving registration:", err);
+    }
+
+    // Show success message
+    freeForm.style.display = 'none';
+    successName.textContent = prenom;
+    successBlock.style.display = 'flex';
+  });
 }
