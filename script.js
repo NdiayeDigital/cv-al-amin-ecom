@@ -10,8 +10,8 @@ function showPage(pageId) {
   });
 
   if (pageId === 'accueil') {
-    // Show accueil, galerie, and parcours together on the Home page
-    ['accueil', 'galerie', 'parcours'].forEach(id => {
+    // Show accueil and galerie together on the Home page
+    ['accueil', 'galerie'].forEach(id => {
       const target = document.getElementById(id);
       if (target) {
         target.classList.remove('page-hidden');
