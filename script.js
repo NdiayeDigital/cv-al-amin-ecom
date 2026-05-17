@@ -9,13 +9,25 @@ function showPage(pageId) {
     section.classList.add('page-hidden');
   });
 
-  // Show target section
-  const target = document.getElementById(pageId);
-  if (target) {
-    target.classList.remove('page-hidden');
-    target.classList.add('page-active');
-    // Trigger reveal animations inside visible section
-    target.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
+  if (pageId === 'accueil') {
+    // Show accueil, galerie, and parcours together on the Home page
+    ['accueil', 'galerie', 'parcours'].forEach(id => {
+      const target = document.getElementById(id);
+      if (target) {
+        target.classList.remove('page-hidden');
+        target.classList.add('page-active');
+        target.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
+      }
+    });
+  } else {
+    // Show target section
+    const target = document.getElementById(pageId);
+    if (target) {
+      target.classList.remove('page-hidden');
+      target.classList.add('page-active');
+      // Trigger reveal animations inside visible section
+      target.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
+    }
   }
 
   // Update active nav link
