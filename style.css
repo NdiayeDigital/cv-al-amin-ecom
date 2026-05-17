@@ -232,17 +232,18 @@ section { padding: 100px 2rem; }
 /* ===== CAROUSEL ===== */
 .carousel-container {
   position: relative;
-  max-width: 900px;
+  max-width: 450px;
   margin: 0 auto;
   border-radius: 24px;
   overflow: hidden;
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--border);
+  aspect-ratio: 1 / 1;
 }
 .carousel-track {
   display: flex;
   transition: transform 0.5s ease-in-out;
-  height: 500px;
+  height: 100%;
 }
 .carousel-slide {
   min-width: 100%;
@@ -822,6 +823,5 @@ section { padding: 100px 2rem; }
   .timeline-icon { width: 40px; height: 40px; left: 0; font-size: 1rem; }
   .timeline-content { padding: 1.2rem 1.5rem; }
 
-  .carousel-track { height: 300px; }
   .carousel-btn { width: 36px; height: 36px; font-size: 1rem; }
 }
