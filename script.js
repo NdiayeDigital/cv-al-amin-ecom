@@ -186,7 +186,7 @@ if (contactForm) {
     );
     
     setTimeout(() => {
-      window.open(`https://wa.me/221784799882?text=${whatsappMsg}`, '_blank');
+      window.open(`https://wa.me/221756490565?text=${whatsappMsg}`, '_blank');
       contactForm.reset();
       timeSelect.disabled = true;
       setTimeout(() => {
