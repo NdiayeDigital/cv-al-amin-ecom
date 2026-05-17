@@ -106,6 +106,48 @@ function animateCounters() {
   });
 }
 
+// ===== SECURITY UTILITIES & STATE HELPERS =====
+function sanitizeHTML(str) {
+  if (typeof str !== 'string') return '';
+  return str.replace(/[&<>"']/g, (m) => {
+    const map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    };
+    return map[m];
+  });
+}
+
+function getBookings() {
+  try {
+    const data = localStorage.getItem('rdv_bookings');
+    if (!data) return {};
+    const parsed = JSON.parse(data);
+    return (parsed && typeof parsed === 'object') ? parsed : {};
+  } catch (e) {
+    console.error("Sécurité : localStorage altéré ou corrompu. Réinitialisation sécurisée.", e);
+    return {};
+  }
+}
+
+function saveBooking(date, time) {
+  try {
+    const bookedData = getBookings();
+    if (!bookedData[date]) {
+      bookedData[date] = [];
+    }
+    if (!bookedData[date].includes(time)) {
+      bookedData[date].push(time);
+      localStorage.setItem('rdv_bookings', JSON.stringify(bookedData));
+    }
+  } catch (e) {
+    console.error("Sécurité : Impossible de sauvegarder le rendez-vous sécurisé.", e);
+  }
+}
+
 // ===== APPOINTMENT FORM =====
 const dateInput = document.getElementById('form-date');
 const timeSelect = document.getElementById('form-time');
@@ -121,19 +163,19 @@ if (dateInput) {
   ];
 
   dateInput.addEventListener('change', function() {
-    const selectedDate = this.value;
+    const selectedDate = sanitizeHTML(this.value);
     timeSelect.innerHTML = '<option value="">Choisissez une heure</option>';
     
     if (selectedDate) {
       timeSelect.disabled = false;
-      // Fetch booked times from localStorage
-      const bookedData = JSON.parse(localStorage.getItem('rdv_bookings') || '{}');
+      // Fetch booked times safely
+      const bookedData = getBookings();
       const bookedTimes = bookedData[selectedDate] || [];
 
       availableHours.forEach(time => {
         const option = document.createElement('option');
-        option.value = time;
-        option.textContent = time;
+        option.value = sanitizeHTML(time);
+        option.textContent = sanitizeHTML(time);
         if (bookedTimes.includes(time)) {
           option.disabled = true;
           option.textContent += ' (Indisponible)';
@@ -150,26 +192,21 @@ const contactForm = document.getElementById('contactForm');
 if (contactForm) {
   contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const nom = document.getElementById('form-nom').value;
-    const prenom = document.getElementById('form-prenom').value;
-    const email = document.getElementById('form-email').value;
-    const tel = document.getElementById('form-tel').value;
-    const date = document.getElementById('form-date').value;
-    const time = document.getElementById('form-time').value;
-    const message = document.getElementById('form-message').value;
+    const nom = sanitizeHTML(document.getElementById('form-nom').value.trim());
+    const prenom = sanitizeHTML(document.getElementById('form-prenom').value.trim());
+    const email = sanitizeHTML(document.getElementById('form-email').value.trim());
+    const tel = sanitizeHTML(document.getElementById('form-tel').value.trim());
+    const date = sanitizeHTML(document.getElementById('form-date').value.trim());
+    const time = sanitizeHTML(document.getElementById('form-time').value.trim());
+    const message = sanitizeHTML(document.getElementById('form-message').value.trim());
     
     if (!time) {
       alert("Veuillez choisir une heure pour le rendez-vous.");
       return;
     }
 
-    // Save booking to localStorage
-    const bookedData = JSON.parse(localStorage.getItem('rdv_bookings') || '{}');
-    if (!bookedData[date]) {
-      bookedData[date] = [];
-    }
-    bookedData[date].push(time);
-    localStorage.setItem('rdv_bookings', JSON.stringify(bookedData));
+    // Save booking safely
+    saveBooking(date, time);
 
     // Show success message
     document.getElementById('form-success').style.display = 'block';
