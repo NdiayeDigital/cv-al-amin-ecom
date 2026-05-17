@@ -229,6 +229,74 @@ section { padding: 100px 2rem; }
   margin: 0 auto; border-radius: 2px;
 }
 
+/* ===== PARCOURS (TIMELINE) ===== */
+.timeline-container {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  padding: 2rem 0;
+}
+.timeline-container::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 40px;
+  height: 100%; width: 2px;
+  background: var(--border-hover);
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 3rem;
+  padding-left: 100px;
+}
+.timeline-item:last-child { margin-bottom: 0; }
+.timeline-icon {
+  position: absolute;
+  top: 0; left: 16px;
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 2px solid var(--blue);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; color: var(--blue-light);
+  box-shadow: var(--shadow-glow);
+  z-index: 2;
+  transition: all 0.3s;
+}
+.timeline-item:hover .timeline-icon {
+  background: var(--blue); color: var(--white);
+  transform: scale(1.1);
+}
+.timeline-content {
+  background: var(--bg-card);
+  padding: 1.5rem 2rem;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  transition: all 0.3s;
+}
+.timeline-item:hover .timeline-content {
+  border-color: var(--blue-light);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-glow);
+}
+.timeline-date {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 50px;
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--blue-light);
+  font-size: 0.8rem; font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.timeline-content h3 {
+  font-size: 1.3rem; color: var(--white);
+  margin-bottom: 0.5rem;
+}
+.timeline-content p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
 /* ===== ABOUT ===== */
 .about-container {
   max-width: 1200px; margin: 0 auto;
@@ -252,6 +320,82 @@ section { padding: 100px 2rem; }
 .highlight-item .icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
 .highlight-item h4 { font-size: 0.95rem; font-weight: 600; color: var(--blue-light); }
 .highlight-item p { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem; }
+
+/* Partners Section */
+.partners-section {
+  margin-top: 4rem; padding: 2.5rem;
+  border-radius: 24px; background: var(--bg-card);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+.partners-section h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; color: var(--white); margin-bottom: 2rem;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.partners-section h3 i { color: var(--blue-light); }
+.partners-grid {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem;
+}
+.partner-card {
+  padding: 1.5rem 2rem; border-radius: 16px;
+  background: rgba(59, 130, 246, 0.04);
+  border: 1px solid var(--border);
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  min-width: 140px;
+  transition: all 0.3s;
+}
+.partner-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-glow);
+}
+.partner-card i {
+  font-size: 2.5rem; color: var(--text-secondary);
+  transition: color 0.3s;
+}
+.partner-card:hover i { color: var(--blue-light); }
+.partner-card span {
+  font-size: 0.9rem; font-weight: 600; color: var(--text-primary);
+}
+
+/* Collaborations Section */
+.collab-section {
+  margin-top: 2.5rem; padding: 2.5rem;
+  border-radius: 24px; background: rgba(59, 130, 246, 0.02);
+  border: 1px dashed var(--border-hover);
+  text-align: center;
+}
+.collab-section h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; color: var(--white); margin-bottom: 2rem;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.collab-section h3 i { color: #f59e0b; }
+.collab-grid {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 2.5rem;
+}
+.collab-card {
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  transition: all 0.3s;
+}
+.collab-card:hover { transform: translateY(-5px); }
+.collab-icon {
+  width: 60px; height: 60px; border-radius: 14px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem; color: var(--white); font-weight: 700;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  transition: all 0.3s;
+}
+.collab-card:hover .collab-icon {
+  border-color: var(--blue); color: var(--blue-light);
+  box-shadow: var(--shadow-glow);
+}
+.collab-card span {
+  font-size: 0.85rem; font-weight: 600; color: var(--text-secondary);
+  letter-spacing: 1px; text-transform: uppercase;
+}
 
 /* ===== ECOM ACADEMIE ===== */
 .academie-container { max-width: 900px; margin: 0 auto; }
@@ -607,4 +751,9 @@ section { padding: 100px 2rem; }
   .section-header { margin-bottom: 2.5rem; }
   section { padding: 60px 1.25rem; }
   .social-links a { width: 40px; height: 40px; font-size: 1rem; }
+  
+  .timeline-container::before { left: 20px; }
+  .timeline-item { padding-left: 60px; }
+  .timeline-icon { width: 40px; height: 40px; left: 0; font-size: 1rem; }
+  .timeline-content { padding: 1.2rem 1.5rem; }
 }
