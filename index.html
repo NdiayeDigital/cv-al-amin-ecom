@@ -603,11 +603,24 @@
         </div>
       </div>
       <form class="contact-form reveal" id="contactForm">
-        <input type="text" placeholder="Votre nom complet" required id="form-name">
+        <h3 style="color: var(--white); margin-bottom: 15px; font-family: 'Playfair Display', serif; text-align: center;">Prendre un rendez-vous</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <input type="text" placeholder="Nom" required id="form-nom">
+          <input type="text" placeholder="Prénom" required id="form-prenom">
+        </div>
         <input type="email" placeholder="Votre email" required id="form-email">
-        <input type="text" placeholder="Sujet" id="form-subject">
-        <textarea placeholder="Votre message..." required id="form-message"></textarea>
-        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Envoyer le message</button>
+        <input type="tel" placeholder="Numéro de téléphone" required id="form-tel">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <input type="date" required id="form-date" style="cursor: pointer;">
+          <select required id="form-time" style="cursor: pointer;" disabled>
+            <option value="">Choisissez une heure</option>
+          </select>
+        </div>
+        <textarea placeholder="Sujet du rendez-vous..." required id="form-message"></textarea>
+        <button type="submit" class="btn btn-primary" id="btn-submit-rdv"><i class="fas fa-calendar-check"></i> Confirmer le rendez-vous</button>
+        <div id="form-success" style="display: none; color: #4ade80; text-align: center; font-weight: 600; padding: 10px; border-radius: 8px; background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.2);">
+          <i class="fas fa-check-circle"></i> Rendez-vous confirmé !
+        </div>
       </form>
     </div>
   </section>

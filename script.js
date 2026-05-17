@@ -94,19 +94,95 @@ function animateCounters() {
   });
 }
 
-// ===== CONTACT FORM =====
-document.getElementById('contactForm').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const name = document.getElementById('form-name').value;
-  const email = document.getElementById('form-email').value;
-  const subject = document.getElementById('form-subject').value;
-  const message = document.getElementById('form-message').value;
-  
-  const whatsappMsg = encodeURIComponent(
-    `Bonjour Al Amin,\n\nJe suis ${name} (${email}).\n\nSujet: ${subject}\n\n${message}`
-  );
-  window.open(`https://wa.me/221784799882?text=${whatsappMsg}`, '_blank');
-});
+// ===== APPOINTMENT FORM =====
+const dateInput = document.getElementById('form-date');
+const timeSelect = document.getElementById('form-time');
+
+// Set minimum date to today
+if (dateInput) {
+  const today = new Date().toISOString().split('T')[0];
+  dateInput.min = today;
+
+  const availableHours = [
+    "09:00", "10:00", "11:00", "12:00", 
+    "14:00", "15:00", "16:00", "17:00", "18:00"
+  ];
+
+  dateInput.addEventListener('change', function() {
+    const selectedDate = this.value;
+    timeSelect.innerHTML = '<option value="">Choisissez une heure</option>';
+    
+    if (selectedDate) {
+      timeSelect.disabled = false;
+      // Fetch booked times from localStorage
+      const bookedData = JSON.parse(localStorage.getItem('rdv_bookings') || '{}');
+      const bookedTimes = bookedData[selectedDate] || [];
+
+      availableHours.forEach(time => {
+        const option = document.createElement('option');
+        option.value = time;
+        option.textContent = time;
+        if (bookedTimes.includes(time)) {
+          option.disabled = true;
+          option.textContent += ' (Indisponible)';
+        }
+        timeSelect.appendChild(option);
+      });
+    } else {
+      timeSelect.disabled = true;
+    }
+  });
+}
+
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nom = document.getElementById('form-nom').value;
+    const prenom = document.getElementById('form-prenom').value;
+    const email = document.getElementById('form-email').value;
+    const tel = document.getElementById('form-tel').value;
+    const date = document.getElementById('form-date').value;
+    const time = document.getElementById('form-time').value;
+    const message = document.getElementById('form-message').value;
+    
+    if (!time) {
+      alert("Veuillez choisir une heure pour le rendez-vous.");
+      return;
+    }
+
+    // Save booking to localStorage
+    const bookedData = JSON.parse(localStorage.getItem('rdv_bookings') || '{}');
+    if (!bookedData[date]) {
+      bookedData[date] = [];
+    }
+    bookedData[date].push(time);
+    localStorage.setItem('rdv_bookings', JSON.stringify(bookedData));
+
+    // Show success message
+    document.getElementById('form-success').style.display = 'block';
+    
+    // Redirect to WhatsApp
+    const whatsappMsg = encodeURIComponent(
+      `📅 *NOUVEAU RENDEZ-VOUS*\n\n` +
+      `*Client:* ${prenom} ${nom}\n` +
+      `*Email:* ${email}\n` +
+      `*Tél:* ${tel}\n` +
+      `*Date:* ${date}\n` +
+      `*Heure:* ${time}\n\n` +
+      `*Sujet:* ${message}`
+    );
+    
+    setTimeout(() => {
+      window.open(`https://wa.me/221784799882?text=${whatsappMsg}`, '_blank');
+      contactForm.reset();
+      timeSelect.disabled = true;
+      setTimeout(() => {
+        document.getElementById('form-success').style.display = 'none';
+      }, 5000);
+    }, 1500);
+  });
+}
 
 // ===== LOGO CLICK = HOME =====
 document.querySelector('.nav-logo').addEventListener('click', (e) => {

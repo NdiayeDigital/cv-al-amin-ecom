@@ -639,13 +639,17 @@ section { padding: 100px 2rem; }
 .contact-item .ci-text a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s; }
 .contact-item .ci-text a:hover { color: var(--blue-light); }
 .contact-form { display: flex; flex-direction: column; gap: 1rem; }
-.contact-form input, .contact-form textarea {
+.contact-form input, .contact-form textarea, .contact-form select {
   padding: 14px 20px; border-radius: 14px;
   background: var(--bg-card); border: 1px solid var(--border);
   color: var(--text-primary); font-family: 'Inter', sans-serif;
   font-size: 0.95rem; outline: none; transition: border-color 0.3s;
+  width: 100%;
 }
-.contact-form input:focus, .contact-form textarea:focus { border-color: var(--blue); }
+.contact-form input:focus, .contact-form textarea:focus, .contact-form select:focus { border-color: var(--blue); }
+.contact-form select option { background: var(--bg-primary); color: var(--text-primary); }
+.contact-form select:disabled { opacity: 0.5; cursor: not-allowed; }
+.contact-form input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
 .contact-form textarea { min-height: 120px; resize: vertical; }
 .contact-form .btn-primary { width: 100%; justify-content: center; }
 
