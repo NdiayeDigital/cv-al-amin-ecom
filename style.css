@@ -872,6 +872,101 @@ section { padding: 100px 2rem; }
   justify-content: center;
 }
 
+/* ===== GALERIE PHOTOS ===== */
+.galerie-slider {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  aspect-ratio: 16 / 9;
+}
+.galerie-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.galerie-slide {
+  min-width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.galerie-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+.galerie-slide:hover img { transform: scale(1.03); }
+.galerie-caption {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 2rem 2rem 1.5rem;
+  background: linear-gradient(transparent, rgba(6,6,16,0.88));
+  color: var(--white);
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'Playfair Display', serif;
+  letter-spacing: 0.3px;
+  transform: translateY(10px);
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+.galerie-slide.is-active .galerie-caption {
+  transform: translateY(0);
+  opacity: 1;
+}
+.galerie-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: rgba(6, 6, 16, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  color: var(--white);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+.galerie-btn:hover {
+  background: var(--blue);
+  border-color: var(--blue);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 0 20px rgba(59,130,246,0.4);
+}
+.galerie-prev { left: 16px; }
+.galerie-next { right: 16px; }
+.galerie-dots {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex; gap: 8px;
+  z-index: 10;
+}
+.galerie-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.35);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+.galerie-dot.active {
+  background: var(--blue-light);
+  transform: scale(1.4);
+  box-shadow: 0 0 8px rgba(96,165,250,0.6);
+}
+
 /* ===== ANIMATIONS ===== */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(30px); }

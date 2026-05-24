@@ -45,8 +45,8 @@ function showPage(pageId) {
   });
 
   if (pageId === 'accueil') {
-    // Show accueil, formation-gratuite, and parcours together on the Home page
-    ['accueil', 'formation-gratuite', 'parcours'].forEach(id => {
+    // Show accueil, galerie, formation-gratuite, and parcours together on the Home page
+    ['accueil', 'galerie', 'formation-gratuite', 'parcours'].forEach(id => {
       const target = document.getElementById(id);
       if (target) {
         target.classList.remove('page-hidden');
@@ -430,3 +430,61 @@ if (freeForm) {
     successBlock.style.display = 'flex';
   });
 }
+
+// ===== GALERIE SLIDESHOW =====
+(function() {
+  const track = document.getElementById('galerieTrack');
+  if (!track) return;
+
+  const slides = Array.from(track.children);
+  const dotsContainer = document.getElementById('galerieDots');
+  const prevBtn = document.getElementById('galeriePrev');
+  const nextBtn = document.getElementById('galerieNext');
+  let current = 0;
+  let autoTimer = null;
+
+  // Create dots
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.classList.add('galerie-dot');
+    dot.setAttribute('aria-label', `Photo ${i + 1}`);
+    dot.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(dot);
+  });
+  const dots = Array.from(dotsContainer.children);
+
+  function goTo(index) {
+    slides[current].classList.remove('is-active');
+    dots[current].classList.remove('active');
+    current = (index + slides.length) % slides.length;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    slides[current].classList.add('is-active');
+    dots[current].classList.add('active');
+  }
+
+  function startAuto() {
+    autoTimer = setInterval(() => goTo(current + 1), 4000);
+  }
+  function stopAuto() { clearInterval(autoTimer); }
+
+  prevBtn.addEventListener('click', () => { stopAuto(); goTo(current - 1); startAuto(); });
+  nextBtn.addEventListener('click', () => { stopAuto(); goTo(current + 1); startAuto(); });
+
+  // Touch / swipe support
+  let touchStartX = 0;
+  track.parentElement.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  track.parentElement.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) {
+      stopAuto();
+      goTo(diff > 0 ? current + 1 : current - 1);
+      startAuto();
+    }
+  }, { passive: true });
+
+  // Init first slide
+  goTo(0);
+  startAuto();
+})();
