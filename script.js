@@ -1,6 +1,41 @@
+// ===== CONFIGURATION SUPABASE =====
+// Remplissez ces champs avec vos clés d'API de votre projet Supabase
+// (Vous pouvez créer un projet gratuit sur https://supabase.com)
+const SUPABASE_URL = "VOTRE_SUPABASE_URL";
+const SUPABASE_ANON_KEY = "VOTRE_SUPABASE_ANON_KEY";
+
+let supabaseClient = null;
+
+if (typeof supabase !== 'undefined' && SUPABASE_URL !== "VOTRE_SUPABASE_URL" && SUPABASE_ANON_KEY !== "VOTRE_SUPABASE_ANON_KEY") {
+  try {
+    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log("Supabase initialisé avec succès !");
+  } catch (err) {
+    console.error("Erreur d'initialisation de Supabase :", err);
+  }
+}
+
 // ===== SPA NAVIGATION =====
 const allSections = document.querySelectorAll('section[id]');
 const navLinksAll = document.querySelectorAll('.nav-links a');
+const mobileOverlay = document.getElementById('mobileOverlay');
+
+function closeMobileMenu() {
+  const navLinks = document.getElementById('navLinks');
+  const hamburger = document.getElementById('hamburger');
+  navLinks.classList.remove('active');
+  hamburger.classList.remove('open');
+  if (mobileOverlay) mobileOverlay.classList.remove('active');
+}
+
+function updateBottomNav(pageId) {
+  document.querySelectorAll('.bottom-nav-item').forEach(item => {
+    item.classList.remove('active');
+    if (item.getAttribute('data-page') === pageId) {
+      item.classList.add('active');
+    }
+  });
+}
 
 function showPage(pageId) {
   // Hide all sections
@@ -30,7 +65,7 @@ function showPage(pageId) {
     }
   }
 
-  // Update active nav link
+  // Update active top nav link
   navLinksAll.forEach(link => {
     link.classList.remove('active');
     if (link.getAttribute('href') === '#' + pageId) {
@@ -38,17 +73,17 @@ function showPage(pageId) {
     }
   });
 
+  // Update bottom nav active state
+  updateBottomNav(pageId);
+
   // Scroll to top
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   // Close mobile menu
-  const navLinks = document.getElementById('navLinks');
-  const hamburger = document.getElementById('hamburger');
-  navLinks.classList.remove('active');
-  hamburger.classList.remove('open');
+  closeMobileMenu();
 }
 
-// Nav link clicks
+// Top nav link clicks
 navLinksAll.forEach(link => {
   link.addEventListener('click', function (e) {
     e.preventDefault();
@@ -56,6 +91,20 @@ navLinksAll.forEach(link => {
     showPage(pageId);
   });
 });
+
+// Bottom nav link clicks
+document.querySelectorAll('.bottom-nav-item').forEach(item => {
+  item.addEventListener('click', function (e) {
+    e.preventDefault();
+    const pageId = this.getAttribute('data-page');
+    if (pageId) showPage(pageId);
+  });
+});
+
+// Overlay click closes menu
+if (mobileOverlay) {
+  mobileOverlay.addEventListener('click', closeMobileMenu);
+}
 
 // Show accueil by default on load
 window.addEventListener('load', () => {
@@ -77,8 +126,9 @@ window.addEventListener('scroll', () => {
 const hamburger = document.getElementById('hamburger');
 const navLinks = document.getElementById('navLinks');
 hamburger.addEventListener('click', () => {
-  navLinks.classList.toggle('active');
-  hamburger.classList.toggle('open');
+  const isOpen = navLinks.classList.toggle('active');
+  hamburger.classList.toggle('open', isOpen);
+  if (mobileOverlay) mobileOverlay.classList.toggle('active', isOpen);
 });
 
 // ===== COUNTER ANIMATION =====
@@ -207,6 +257,22 @@ if (contactForm) {
 
     // Save booking safely
     saveBooking(date, time);
+
+    // Save to Supabase if configured
+    if (supabaseClient) {
+      supabaseClient.from('bookings').insert([{
+        nom: nom,
+        prenom: prenom,
+        email: email,
+        tel: tel,
+        date: date,
+        heure: time,
+        message: message
+      }]).then(({ error }) => {
+        if (error) console.error("Erreur de sauvegarde Supabase :", error);
+        else console.log("Rendez-vous sauvegardé sur Supabase !");
+      });
+    }
 
     // Show success message
     document.getElementById('form-success').style.display = 'block';
