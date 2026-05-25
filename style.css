@@ -1052,7 +1052,7 @@ section { padding: 100px 2rem; }
   .floating-card { display: none; }
   .about-container { grid-template-columns: 1fr; }
   .skills-grid { grid-template-columns: 1fr 1fr; }
-  .formations-grid { grid-template-columns: 1fr; }
+  .formations-grid { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
   .contact-container { grid-template-columns: 1fr; }
   .academie-features { grid-template-columns: 1fr; }
   .team-grid, .reviews-grid { grid-template-columns: 1fr; }
@@ -1188,11 +1188,63 @@ section { padding: 100px 2rem; }
   .academie-stat span { font-size: 1.3rem; }
   .academie-content { padding: 1.5rem; }
   .academie-content h3 { font-size: 1.3rem; }
-  .formation-detail-card { padding: 1.5rem; }
-  .formation-icon-big { font-size: 2rem; }
-  .formation-header h3 { font-size: 1.05rem; }
-  .formation-price { font-size: 1.1rem; }
-  .formation-modules li { font-size: 0.8rem; padding: 5px 0; }
+  .formations-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  .formation-detail-card {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+  .formation-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+    margin-bottom: 0.75rem;
+  }
+  .formation-icon-big {
+    font-size: 1.75rem;
+  }
+  .formation-header h3 {
+    font-size: 0.95rem;
+    line-height: 1.2;
+  }
+  .formation-price {
+    font-size: 0.95rem;
+  }
+  .formation-desc {
+    font-size: 0.75rem;
+    line-height: 1.3;
+    margin-bottom: 0.75rem;
+  }
+  .formation-modules h4 {
+    font-size: 0.75rem;
+    margin-bottom: 0.4rem;
+  }
+  .formation-modules li {
+    font-size: 0.7rem;
+    padding: 3px 0;
+  }
+  .formation-tags {
+    gap: 4px;
+    margin-bottom: 0.75rem;
+  }
+  .formation-tags span {
+    padding: 2px 6px;
+    font-size: 0.6rem;
+  }
+  .btn-sm {
+    padding: 8px 12px;
+    font-size: 0.75rem;
+  }
+  .featured-badge {
+    position: static;
+    display: inline-block;
+    align-self: flex-start;
+    margin-bottom: 0.5rem;
+    padding: 2px 8px;
+    font-size: 0.65rem;
+  }
   .contact-info h3 { font-size: 1.4rem; }
   .section-title { font-size: 1.6rem; }
   .section-header { margin-bottom: 2.5rem; }
