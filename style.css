@@ -646,6 +646,40 @@ section { padding: 100px 2rem; }
   border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
+/* Unavailable Formation Styles */
+.formation-detail-card.unavailable {
+  opacity: 0.7;
+  filter: grayscale(40%);
+  border-color: rgba(255, 255, 255, 0.08);
+  pointer-events: auto; /* Allow reading modules, but not clicking buttons */
+}
+.formation-detail-card.unavailable::before {
+  background: var(--text-muted);
+}
+.formation-detail-card.unavailable .formation-price {
+  background: var(--text-muted);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.formation-detail-card.unavailable:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+.formation-detail-card.unavailable .featured-badge {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.btn:disabled, .btn.btn-disabled {
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: var(--text-muted) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: none !important;
+  cursor: not-allowed !important;
+  pointer-events: none;
+}
+
 /* ===== SKILLS ===== */
 .skills-grid {
   max-width: 1200px; margin: 0 auto;
