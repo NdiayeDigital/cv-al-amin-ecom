@@ -438,7 +438,11 @@ section { padding: 100px 2rem; }
 }
 .collab-section h3 i { color: #f59e0b; }
 .collab-grid {
-  display: flex; flex-wrap: wrap; justify-content: center; gap: 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  max-width: 900px;
+  margin: 0 auto;
 }
 .collab-card {
   display: flex; flex-direction: column; align-items: center; gap: 12px;
@@ -1269,4 +1273,9 @@ section { padding: 100px 2rem; }
   .partner-card { padding: 1rem 0.5rem; }
   .partner-card i { font-size: 1.75rem; }
   .partner-card span { font-size: 0.75rem; }
+
+  /* Collaborations Mobile */
+  .collab-grid { gap: 1.25rem; }
+  .collab-card span { font-size: 0.75rem; text-align: center; }
+  .collab-icon { width: 50px; height: 50px; font-size: 1.3rem; }
 }
